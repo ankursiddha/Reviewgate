@@ -30,32 +30,31 @@
         <span onclick="rate(5)">★</span>
     </div>
 
-    <div id="negative-form" class="hidden">
+    <form id="negative-form" class="hidden" action="https://formspree.io/f/xqeyajvg" method="POST">
         <p>We're sorry! How can we improve?</p>
-        <textarea placeholder="Tell us about your visit..."></textarea>
-        <button class="btn" onclick="submitPrivate()">Submit Feedback</button>
-    </div>
+        <input type="hidden" name="stars_given" id="star-count-input">
+        <textarea name="customer_feedback" placeholder="Tell us about your visit..." required></textarea>
+        <button type="submit" class="btn">Submit Feedback</button>
+    </form>
 </div>
 
 <script>
-    const GOOGLE_REVIEW_URL = "https://g.page/r/CQG4FBZhnK9DEAE/review"; //https://search.google.com/local/writereview?placeid=ChIJO6CkBSeRyzsRAbgUFmGcr0M
+    const GOOGLE_REVIEW_URL = "https://g.page/r/CQG4FBZhnK9DEAE/review";
 
     function rate(n) {
         if (n >= 4) {
-            // Immediate Redirect
             window.location.href = GOOGLE_REVIEW_URL;
         } else {
-            // Style the stars for 1-3
+            // Update the hidden input with the star count
+            document.getElementById('star-count-input').value = n;
+
+            // Style the stars
             const stars = document.querySelectorAll('#star-container span');
             stars.forEach((s, index) => {
                 s.classList.toggle('active', index < n);
             });
             document.getElementById('negative-form').classList.remove('hidden');
         }
-    }
-
-    function submitPrivate() {
-        alert("Thank you for your honest feedback. We will look into this immediately!");
     }
 </script>
 
