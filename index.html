@@ -51,22 +51,27 @@
 </div>
 
 <script>
-    const GOOGLE_REVIEW_URL = "https://g.page/r/CQG4FBZhnK9DEAE/review";
+    // Replace these with your actual pre-filled links
+    const GOOGLE_5_STAR_URL = "https://g.page/r/CQG4FBZhnK9DEAE/review,5";
+    const GOOGLE_4_STAR_URL = "https://g.page/r/CQG4FBZhnK9DEAE/review,4";
+    
     let selectedStars = 0;
 
     function rate(n) {
         selectedStars = n;
 
-        // Visual update: Turn the stars golden regardless of the rating
+        // Visual update: Turn the stars golden
         const stars = document.querySelectorAll('#star-container span');
         stars.forEach((s, index) => {
             s.classList.toggle('active', index < n);
         });
 
         if (n >= 4) {
-            // Delay redirection slightly so the user sees the gold stars for a brief moment
+            // Select the correct pre-filled URL based on the click
+            const targetUrl = (n === 5) ? GOOGLE_5_STAR_URL : GOOGLE_4_STAR_URL;
+            
             setTimeout(() => {
-                window.location.href = GOOGLE_REVIEW_URL;
+                window.location.href = targetUrl;
             }, 200); 
         } else {
             document.getElementById('negative-form').classList.remove('hidden');
@@ -86,7 +91,6 @@
         btn.innerText = "Sending...";
         btn.disabled = true;
 
-        // AJAX Submission to Formspree
         try {
             const response = await fetch("https://formspree.io/f/xqeyajvg", {
                 method: "POST",
